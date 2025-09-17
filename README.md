@@ -2,7 +2,7 @@
 
 ## Overview
 
-The AI-Powered Content Analyzer API is a NestJS-based application that allows users to submit text content for analysis using a Large Language Model (LLM). The API provides features like text summarization, sentiment analysis, and theme extraction, powered by OpenAI's GPT API. It demonstrates modular NestJS architecture, input validation, error handling, and optional persistence with SQLite or in-memory storage. This project is designed as a take-home assignment to showcase proficiency in NestJS, TypeScript, and LLM integration.
+The AI-Powered Content Analyzer API is a NestJS-based application that allows users to submit text content for analysis using a Large Language Model (LLM). The API provides features like text summarization, sentiment analysis, and theme extraction, powered by Large language model like Ollama, OpenAi GPT. It demonstrates modular NestJS architecture, input validation, error handling, and optional persistence with SQLite or in-memory storage. This project is designed as a take-home assignment to showcase proficiency in NestJS, TypeScript, and LLM integration.
 
 ## Features
 
