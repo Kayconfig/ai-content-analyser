@@ -2,6 +2,7 @@ import {
   BadRequestException,
   HttpStatus,
   InternalServerErrorException,
+  NotFoundException,
 } from '@nestjs/common';
 
 export class ApiHttpExceptions {
@@ -23,6 +24,20 @@ export class ApiHttpExceptions {
   ): BadRequestException {
     return new BadRequestException({
       statusCode: HttpStatus.BAD_REQUEST,
+      message,
+      data: null,
+      error,
+      cause,
+    });
+  }
+
+  static createNotFoundException(
+    message: string[],
+    error: string,
+    cause?: unknown,
+  ): NotFoundException {
+    return new NotFoundException({
+      statusCode: HttpStatus.NOT_FOUND,
       message,
       data: null,
       error,

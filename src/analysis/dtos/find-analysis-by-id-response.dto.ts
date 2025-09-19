@@ -1,11 +1,10 @@
 import { HttpStatus } from '@nestjs/common';
 import { ApiProperty } from '@nestjs/swagger';
 import { Analysis } from 'generated/prisma';
-import { ApiResponse } from 'src/common/interface/api-response.interface';
 import { performAnalysisMessage } from '../constants';
 import { AnalysisDto } from './analysis.dto';
 
-export class PerformAnalysisResponseDto implements ApiResponse<AnalysisDto> {
+export class FindAnalysisByIdResponseDto {
   @ApiProperty({
     example: HttpStatus.OK,
   })
@@ -19,13 +18,13 @@ export class PerformAnalysisResponseDto implements ApiResponse<AnalysisDto> {
   @ApiProperty({
     type: AnalysisDto,
   })
-  data: AnalysisDto | null;
+  data: AnalysisDto;
 
   @ApiProperty({ example: null })
   error: string | null;
-  static create(data: Analysis): PerformAnalysisResponseDto {
-    const dto = new PerformAnalysisResponseDto();
-    dto.statusCode = HttpStatus.CREATED;
+  static create(data: Analysis): FindAnalysisByIdResponseDto {
+    const dto = new FindAnalysisByIdResponseDto();
+    dto.statusCode = HttpStatus.OK;
     dto.message = performAnalysisMessage;
     dto.data = AnalysisDto.create(data);
     dto.error = null;

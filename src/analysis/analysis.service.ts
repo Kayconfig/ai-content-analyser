@@ -5,6 +5,7 @@ import { PerformAnalysisDto } from './dtos/perform-analysis.dto';
 
 import { Analysis, AnalysisType } from 'generated/prisma';
 
+import { AnalysisNotFoundError } from './errors/analysis-not-found.error';
 import { InvalidAnalysisTypeError } from './errors/invalid-analysis-type.error';
 import { AnalysisRepository } from './repository/analysis.repository';
 
@@ -42,6 +43,14 @@ export class AnalysisService {
       analysisType: analysisType,
     };
     const analysis = await this.repository.create(createAnalysisInput);
+    return analysis;
+  }
+
+  async findById(id: string): Promise<Analysis> {
+    const analysis = await this.repository.findById(id);
+    if (!analysis) {
+      throw AnalysisNotFoundError.create(id);
+    }
     return analysis;
   }
 }

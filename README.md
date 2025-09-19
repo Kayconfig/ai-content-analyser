@@ -54,8 +54,8 @@ The AI-Powered Content Analyzer API is a NestJS-based application that allows us
 - **Base URL**: `http://localhost:3000`
 - **Endpoints**:
   - `POST /analyze`
-    - Body: `{ "content": "Your text here", "analysisType": "summary" }`
-    - Response: `{ "id": "uuid", "result": "Summary text", "confidence": 0.95, "processingTime": 1234 }`
+    - Body: `{ "content": "Your text here", "analysisType": "< summary | sentiment | themeExtraction >" }`
+    - Response: `{ "id": "uuid", "result": "Summary text", "confidence": 0.95 }`
   - `GET /analyses/:id`
     - Response: Returns stored analysis or 404 if not found
 - Test with tools like Postman or curl:
