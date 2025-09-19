@@ -1,22 +1,26 @@
 import { Injectable } from '@nestjs/common';
-import { randomUUID } from 'node:crypto';
 import { LLMService } from 'src/llm/llm.service';
 import { LLMResponse } from 'src/llm/types/llm-response';
-import { AnalysisDto } from './dtos/analysis.dto';
 import { PerformAnalysisDto } from './dtos/perform-analysis.dto';
-import { AnalysisType } from './enums/analysis-type.enum';
+
+import { Analysis, AnalysisType } from 'generated/prisma';
+
 import { InvalidAnalysisTypeError } from './errors/invalid-analysis-type.error';
+import { AnalysisRepository } from './repository/analysis.repository';
 
 @Injectable()
 export class AnalysisService {
-  constructor(private readonly llmService: LLMService) {}
+  constructor(
+    private readonly llmService: LLMService,
+    private readonly repository: AnalysisRepository,
+  ) {}
   async performAnalysis({
     content,
     analysisType,
-  }: PerformAnalysisDto): Promise<AnalysisDto> {
+  }: PerformAnalysisDto): Promise<Analysis> {
     let llmResponse: LLMResponse | null = null;
     switch (analysisType) {
-      case AnalysisType.sentimentAnalysis:
+      case AnalysisType.sentiment:
         llmResponse = await this.llmService.performSentimentAnalysis(content);
         break;
       case AnalysisType.summary:
@@ -32,11 +36,12 @@ export class AnalysisService {
       throw InvalidAnalysisTypeError.create(analysisType);
     }
     const { result, confidence } = llmResponse;
-    return {
-      id: randomUUID(),
+    const createAnalysisInput = {
       result,
       confidence,
       analysisType: analysisType,
     };
+    const analysis = await this.repository.create(createAnalysisInput);
+    return analysis;
   }
 }

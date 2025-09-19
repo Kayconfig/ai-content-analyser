@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEnum, IsNotEmpty, IsString } from 'class-validator';
-import { AnalysisType } from '../enums/analysis-type.enum';
+import { AnalysisType } from 'generated/prisma';
 
 export class PerformAnalysisDto {
   @ApiProperty({ example: 'Text to be analysed' })

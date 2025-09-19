@@ -1,5 +1,5 @@
-export enum AnalysisType {
+export enum AnalysisTypeDtoManual {
   summary = 'summary',
-  sentimentAnalysis = 'sentiment-analysis',
-  themeExtraction = 'theme-extraction',
+  sentiment = 'sentiment',
+  themeExtraction = 'themeExtraction',
 }

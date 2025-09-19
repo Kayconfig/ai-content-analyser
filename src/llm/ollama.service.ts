@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import axios from 'axios';
 import { IncomingMessage } from 'node:http';
 import { Message } from './types/message';
@@ -6,9 +7,9 @@ import { Message } from './types/message';
 @Injectable()
 export class OllamaService {
   private readonly client: axios.AxiosInstance;
-  constructor() {
+  constructor(private readonly configService: ConfigService) {
     this.client = axios.create({
-      baseURL: 'http://localhost:11434/api',
+      baseURL: configService.getOrThrow('OLLAMA_BASE_URL'),
     });
   }
   invoke(message: Array<Message>, stream?: false): Promise<Message>;
@@ -18,7 +19,7 @@ export class OllamaService {
     stream: boolean = false,
   ): Promise<Message | IncomingMessage> {
     const payload = {
-      model: 'gpt-oss:20b',
+      model: this.configService.getOrThrow('OLLAMA_MODEL'),
       messages,
       stream,
     };

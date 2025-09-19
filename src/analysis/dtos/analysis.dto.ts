@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEnum } from 'class-validator';
-import { AnalysisType } from '../enums/analysis-type.enum';
+import { Analysis, AnalysisType } from 'generated/prisma';
 
 export class AnalysisDto {
   @ApiProperty({
@@ -26,4 +26,13 @@ export class AnalysisDto {
   @ApiProperty({ enum: AnalysisType, description: 'analysis type' })
   @IsEnum(AnalysisType)
   analysisType: AnalysisType;
+
+  static create(analysis: Analysis): AnalysisDto {
+    const dto = new AnalysisDto();
+    dto.id = analysis.id;
+    dto.analysisType = analysis.analysisType;
+    dto.confidence = analysis.confidence;
+    dto.result = analysis.result;
+    return dto;
+  }
 }
