@@ -1,20 +1,12 @@
-import {
-  Body,
-  ClassSerializerInterceptor,
-  Controller,
-  HttpStatus,
-  Logger,
-  Post,
-  UseInterceptors,
-} from '@nestjs/common';
-import { ApiOkResponse } from '@nestjs/swagger';
-import { defaultInternalServerErrorMsg } from 'src/common/constants';
+import { Body, Controller, Logger, Post } from '@nestjs/common';
+import { ApiBadRequestResponse, ApiOkResponse } from '@nestjs/swagger';
+import { ApiHttpExceptions } from 'src/common/exceptions/api-http-exceptions';
 import { AnalysisService } from './analysis.service';
+import { PerformAnalysisBadRequest } from './dtos/perform-analysis-bad-request.dto';
 import { PerformAnalysisResponseDto } from './dtos/perform-analysis-response.dto';
 import { PerformAnalysisDto } from './dtos/perform-analysis.dto';
 
 @Controller('analysis')
-@UseInterceptors(ClassSerializerInterceptor)
 export class AnalysisController {
   private readonly logger: Logger;
   constructor(private readonly service: AnalysisService) {
@@ -22,6 +14,7 @@ export class AnalysisController {
   }
   @Post()
   @ApiOkResponse({ type: PerformAnalysisResponseDto })
+  @ApiBadRequestResponse({ type: PerformAnalysisBadRequest })
   async performAnalysis(
     @Body() dto: PerformAnalysisDto,
   ): Promise<PerformAnalysisResponseDto> {
@@ -30,12 +23,7 @@ export class AnalysisController {
       return PerformAnalysisResponseDto.create(analysisData);
     } catch (e) {
       this.logger.debug(e);
-      return {
-        statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
-        message: defaultInternalServerErrorMsg,
-        data: null,
-        error: null,
-      };
+      throw ApiHttpExceptions.createInternalServerException(e);
     }
   }
 }

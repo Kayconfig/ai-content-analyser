@@ -10,5 +10,6 @@ export class PerformAnalysisDto {
 
   @ApiProperty({ enum: AnalysisType })
   @IsEnum(AnalysisType)
+  @IsNotEmpty()
   analysisType: AnalysisType;
 }

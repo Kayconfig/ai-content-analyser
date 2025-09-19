@@ -21,7 +21,7 @@ export class PerformAnalysisResponseDto implements ApiResponse<AnalysisDto> {
   data: AnalysisDto | null;
 
   @ApiProperty({ example: null })
-  error: string[] | null;
+  error: string | null;
   static create(data: AnalysisDto): PerformAnalysisResponseDto {
     const dto = new PerformAnalysisResponseDto();
     dto.statusCode = HttpStatus.OK;
