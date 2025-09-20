@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { LLMService } from 'src/llm/llm.service';
-import { LLMResponse } from 'src/llm/types/llm-response';
+import { LLMService } from '../llm/llm.service';
+import { LLMResponse } from '../llm/types/llm-response';
 import { PerformAnalysisDto } from './dtos/perform-analysis.dto';
 
-import { Analysis, AnalysisType } from 'generated/prisma';
+import { Analysis, AnalysisType } from '../../generated/prisma';
 
 import { AnalysisNotFoundError } from './errors/analysis-not-found.error';
 import { InvalidAnalysisTypeError } from './errors/invalid-analysis-type.error';
